@@ -1,8 +1,15 @@
 import math
+import sys
 
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
+
+
+#Nick Brault
+#Martin Cheng
+# https://github.com/University-of-Utah-CS3505/a8-sprite-previewer-NBRO6
+
 
 # This function loads a series of sprite images stored in a folder with a
 # consistent naming pattern: sprite_# or sprite_##. It returns a list of the images.
@@ -33,7 +40,11 @@ class SpritePreview(QMainWindow):
 
     def setupUI(self):
         # An application needs a central widget - often a QFrame
+        app = QApplication([])
         frame = QFrame()
+        sprite_image_label = QLabel("sprite image")
+        sprite_image_label.show()
+
 
         # Add a lot of code here to make layouts, more QFrame or QWidgets, and
         # the other components of the program.
@@ -41,6 +52,7 @@ class SpritePreview(QMainWindow):
         # you define in this class.
 
         self.setCentralWidget(frame)
+        app.exec()
 
 
     # You will need methods in the class to act as slots to connect to signals
