@@ -96,7 +96,17 @@ class SpritePreview(QMainWindow):
     def play_animation(self):
         self.update_fps()
 
-    #################
+    def update_fps(self):
+        fps = self.slider.value()
+        self.fps_label.setText(f"Frames per second {fps}")
+        if fps == 0:
+            self.timer.stop()
+        else:
+            interval = int(1000 / fps)
+            if self.timer.isActive():
+                self.timer.stop()
+            self.timer.start(interval)
+            #########
 
 
 
