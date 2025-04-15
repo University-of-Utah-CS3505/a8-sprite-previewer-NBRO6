@@ -15,9 +15,8 @@ def load_sprite(sprite_folder_name, number_of_frames):
     frames = []
     padding = math.ceil(math.log(number_of_frames - 1, 10))
     for frame in range(number_of_frames):
-        folder_and_file_name = sprite_folder_name + "/sprite_" + str(frame).rjust(padding, '0') + ".png"
+        folder_and_file_name = os.path.join(sprite_folder_name, f"sprite_{str(frame).rjust(padding, '0')}.png")
         frames.append(QPixmap(folder_and_file_name))
-
     return frames
 
 class SpritePreview(QMainWindow):
@@ -25,9 +24,7 @@ class SpritePreview(QMainWindow):
         super().__init__()
         self.setWindowTitle("Sprite Animation Preview")
         self.setGeometry(100, 100, 400, 300)
-        # This loads the provided sprite and would need to be changed for your own.
-        self.num_frames = 21
-        self.frames = load_sprite('spriteImages',self.num_frames)
+        
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
 
@@ -43,16 +40,6 @@ class SpritePreview(QMainWindow):
         exit_action.triggered.connect(self.close)
         file_menu.addAction(exit_action)
 
-
-        # Add any other instance variables needed to track information as the program
-        # runs here
-
-        # Make the GUI in the setupUI method
-        self.setupUI()
-
-
-    def setupUI(self):
-        # An application needs a central widget - often a QFrame
         self.layout = QVBoxLayout(self.central_widget)
 
         self.label = QLabel()
@@ -62,14 +49,16 @@ class SpritePreview(QMainWindow):
         self.slider = QSlider(Qt.Orientation.Horizontal)
         self.slider.setRange(0, 120)
         self.slider.setValue(60)
-        self.slider.setTickInterval(10)
-        self.slider.setTickPosition(QSlider.TickPosition.TicksAbove)
-        # self.slider.valueChanged.connect(self.update_fps)
+        self.slider.valueChanged.connect(self.update_fps)
         self.layout.addWidget(self.slider)
 
         self.fps_label = QLabel("Frames per second 60")
         self.fps_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.fps_label)
+
+        self.button = QPushButton("Play")
+        self.button.clicked.connect(self.play_animation)
+        self.layout.addWidget(self.button)
 
         self.frames = load_sprite("sprites", 6)
         self.current_frame = 0
@@ -106,25 +95,15 @@ class SpritePreview(QMainWindow):
             if self.timer.isActive():
                 self.timer.stop()
             self.timer.start(interval)
-            #########
-
-
-
-
-# You will need methods in the class to act as slots to connect to signals
-    def change_fps(self, fps_speed):
-        print(fps_speed)
-
-# get new speed
-
-
-def main():
-    app = QApplication([])
-    # Create our custom application
-    window = SpritePreview()
-    window.show()
-    app.exec()
 
 
 if __name__ == "__main__":
-    main()
+    app = QApplication(sys.argv)
+    window = SpritePreviewer()
+    window.show()
+    sys.exit(app.exec())
+
+
+
+
+
