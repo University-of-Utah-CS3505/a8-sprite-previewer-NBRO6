@@ -77,7 +77,26 @@ class SpritePreview(QMainWindow):
         if self.frames:
             self.label.setPixmap(self.frames[0])
 
-       #############
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.next_frame)
+
+        self.fps = 60
+
+    def next_frame(self)
+        if self.frames:
+            self.label.setPixmap(self.frames[self.current_frame])
+            self.current_frame = (self.current_frame + 1) % len(self.frames)
+
+    def pause_animation(self):
+        if self.timer.isActive():
+            self.timer.stop()
+        else:
+            self.update_fps()
+
+    def play_animation(self):
+        self.update_fps()
+
+    #################
 
 
 
