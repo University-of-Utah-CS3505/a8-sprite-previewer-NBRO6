@@ -5,11 +5,9 @@ from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 
-
 #Nick Brault
 #Martin Cheng
 # https://github.com/University-of-Utah-CS3505/a8-sprite-previewer-NBRO6
-
 
 # This function loads a series of sprite images stored in a folder with a
 # consistent naming pattern: sprite_# or sprite_##. It returns a list of the images.
@@ -23,13 +21,27 @@ def load_sprite(sprite_folder_name, number_of_frames):
     return frames
 
 class SpritePreview(QMainWindow):
-
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Sprite Animation Preview")
         # This loads the provided sprite and would need to be changed for your own.
         self.num_frames = 21
         self.frames = load_sprite('spriteImages',self.num_frames)
+
+        # setup Qtimer
+        # everytime it times out, the frame should change
+        # updating FPS should reset the timer
+        # setInterval
+        # update_fps = setInterval for timer
+        # set interval will set the FPS
+        # FPS variable to be shown as the value of the slider
+        # whatever you're using the slider to set the interval of the timer
+        #updating FPS changes timer interval
+        # change frame gets called when the timer times out, FPS change is called when the slider changes
+        # one method that updates FPS, another that actually changes the frame
+
+
+
 
         # Add any other instance variables needed to track information as the program
         # runs here
@@ -40,29 +52,45 @@ class SpritePreview(QMainWindow):
 
     def setupUI(self):
         # An application needs a central widget - often a QFrame
-        app = QApplication([])
         frame = QFrame()
+        layout = QVBoxLayout(frame)
         sprite_image_label = QLabel("sprite image")
-        sprite_image_label.show()
+        fps_label = QLabel("Frames per second: " + str(self.num_frames))
+        layout.addWidget(sprite_image_label)
+        timer = QTimer(self)
 
+        # this would go with the start button
+        timer.start()
+
+        sprite_image_label.show()
+        fps_label.show()
 
         # Add a lot of code here to make layouts, more QFrame or QWidgets, and
         # the other components of the program.
         # Create needed connections between the UI components and slot methods
         # you define in this class.
 
-        self.setCentralWidget(frame)
-        app.exec()
+        self.scale_slider = QSlider()
+        self.scale_slider.setMinimum(1)
+        self.scale_slider.setMaximum(101)
+        layout.addWidget(self.scale_slider)
+        self.scale_slider.valueChanged.connect(self.change_fps)
 
+        frame.setLayout(layout)
+        self.setCentralWidget(frame)
 
     # You will need methods in the class to act as slots to connect to signals
+    def change_fps(self, fps_speed):
+
+        # get new speed
+
+
 
 
 def main():
     app = QApplication([])
     # Create our custom application
     window = SpritePreview()
-    # And show it
     window.show()
     app.exec()
 
