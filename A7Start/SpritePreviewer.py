@@ -54,10 +54,20 @@ class SpritePreview(QMainWindow):
         # An application needs a central widget - often a QFrame
         frame = QFrame()
         layout = QVBoxLayout(frame)
+        slider_layout = QHBoxLayout(frame)
         sprite_image_label = QLabel("sprite image")
         fps_label = QLabel("Frames per second: " + str(self.num_frames))
         layout.addWidget(sprite_image_label)
         timer = QTimer(self)
+
+
+
+        label = QLabel()
+        pixmap = QPixmap('spriteImages/sprite_00.png')
+        label.setPixmap(pixmap)
+        layout.addWidget(label)
+
+
 
         # this would go with the start button
         timer.start()
@@ -71,19 +81,20 @@ class SpritePreview(QMainWindow):
         # you define in this class.
 
         self.scale_slider = QSlider()
-        self.scale_slider.setMinimum(1)
-        self.scale_slider.setMaximum(101)
+        self.scale_slider.setMinimum(0)
+        self.scale_slider.setMaximum(100)
         layout.addWidget(self.scale_slider)
         self.scale_slider.valueChanged.connect(self.change_fps)
 
-        frame.setLayout(layout)
+        frame.setLayout(slider_layout)
         self.setCentralWidget(frame)
+
 
     # You will need methods in the class to act as slots to connect to signals
     def change_fps(self, fps_speed):
         print(fps_speed)
 
-        # get new speed
+# get new speed
 
 
 
