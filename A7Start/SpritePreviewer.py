@@ -81,6 +81,7 @@ class SpritePreview(QMainWindow):
 
     # You will need methods in the class to act as slots to connect to signals
     def change_fps(self, fps_speed):
+        print(fps_speed)
 
         # get new speed
 
