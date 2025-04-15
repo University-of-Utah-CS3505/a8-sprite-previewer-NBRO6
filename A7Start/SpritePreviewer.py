@@ -24,23 +24,12 @@ class SpritePreview(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Sprite Animation Preview")
+        self.setGeometry(100, 100, 400, 300)
         # This loads the provided sprite and would need to be changed for your own.
         self.num_frames = 21
         self.frames = load_sprite('spriteImages',self.num_frames)
-
-        # setup Qtimer
-        # everytime it times out, the frame should change
-        # updating FPS should reset the timer
-        # setInterval
-        # update_fps = setInterval for timer
-        # set interval will set the FPS
-        # FPS variable to be shown as the value of the slider
-        # whatever you're using the slider to set the interval of the timer
-        #updating FPS changes timer interval
-        # change frame gets called when the timer times out, FPS change is called when the slider changes
-        # one method that updates FPS, another that actually changes the frame
-
-
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
 
 
         # Add any other instance variables needed to track information as the program
@@ -52,51 +41,35 @@ class SpritePreview(QMainWindow):
 
     def setupUI(self):
         # An application needs a central widget - often a QFrame
-        frame = QFrame()
-        layout = QVBoxLayout(frame)
-        slider_layout = QHBoxLayout(frame)
-        sprite_image_label = QLabel("sprite image")
-        fps_label = QLabel("Frames per second: " + str(self.num_frames))
-        layout.addWidget(sprite_image_label)
-        timer = QTimer(self)
+        self.layout = QVBoxLayout(self.central_widget)
+
+        self.label = QLabel()
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.label)
+
+        self.slider = QSlider(Qt.Orientation.Horizontal)
+        self.slider.setRange(0, 120)
+        self.slider.setValue(60)
+        self.slider.setTickInterval(10)
+        self.slider.setTickPosition(QSlider.TickPosition.TicksAbove)
+        # self.slider.valueChanged.connect(self.update_fps)
+        self.layout.addWidget(self.slider)
+
+        self.fps_label = QLabel("Frames per second 60")
+        self.fps_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.fps_label)
+
+        self.frames = load_sprite("sprites", 6)
+        self.current_frame = 0
 
 
 
-        label = QLabel()
-        pixmap = QPixmap('spriteImages/sprite_00.png')
-        label.setPixmap(pixmap)
-        layout.addWidget(label)
 
-
-
-        # this would go with the start button
-        timer.start()
-
-        sprite_image_label.show()
-        fps_label.show()
-
-        # Add a lot of code here to make layouts, more QFrame or QWidgets, and
-        # the other components of the program.
-        # Create needed connections between the UI components and slot methods
-        # you define in this class.
-
-        self.scale_slider = QSlider()
-        self.scale_slider.setMinimum(0)
-        self.scale_slider.setMaximum(100)
-        layout.addWidget(self.scale_slider)
-        self.scale_slider.valueChanged.connect(self.change_fps)
-
-        frame.setLayout(slider_layout)
-        self.setCentralWidget(frame)
-
-
-    # You will need methods in the class to act as slots to connect to signals
+# You will need methods in the class to act as slots to connect to signals
     def change_fps(self, fps_speed):
         print(fps_speed)
 
 # get new speed
-
-
 
 
 def main():
