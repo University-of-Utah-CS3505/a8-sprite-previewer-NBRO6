@@ -31,6 +31,18 @@ class SpritePreview(QMainWindow):
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
 
+        menu_bar = self.menuBar()
+        menu_bar.setNativeMenuBar(False)
+        file_menu = menu_bar.addMenu("File")
+
+        pause_action = QAction("Pause", self)
+        pause-action.triggered.connect(self.pause_animation)
+        file_menu.addAction(pause_action)
+
+        exit_action = QAction("Exit", self)
+        exit_action.triggered.connect(self.close)
+        file_menu.addAction(exit_action)
+
 
         # Add any other instance variables needed to track information as the program
         # runs here
@@ -61,6 +73,11 @@ class SpritePreview(QMainWindow):
 
         self.frames = load_sprite("sprites", 6)
         self.current_frame = 0
+
+        if self.frames:
+            self.label.setPixmap(self.frames[0])
+
+       #############
 
 
 
