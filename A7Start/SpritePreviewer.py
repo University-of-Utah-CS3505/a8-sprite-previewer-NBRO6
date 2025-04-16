@@ -1,5 +1,6 @@
 import math
 import sys
+import os
 
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
@@ -33,7 +34,7 @@ class SpritePreview(QMainWindow):
         file_menu = menu_bar.addMenu("File")
 
         pause_action = QAction("Pause", self)
-        pause-action.triggered.connect(self.pause_animation)
+        pause_action.triggered.connect(self.pause_animation)
         file_menu.addAction(pause_action)
 
         exit_action = QAction("Exit", self)
@@ -71,7 +72,7 @@ class SpritePreview(QMainWindow):
 
         self.fps = 60
 
-    def next_frame(self)
+    def next_frame(self):
         if self.frames:
             self.label.setPixmap(self.frames[self.current_frame])
             self.current_frame = (self.current_frame + 1) % len(self.frames)
@@ -99,9 +100,10 @@ class SpritePreview(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = SpritePreviewer()
+    window = SpritePreview()
     window.show()
     sys.exit(app.exec())
+
 
 
 
