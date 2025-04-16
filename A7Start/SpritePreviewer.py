@@ -31,7 +31,7 @@ class SpritePreview(QMainWindow):
 
         menu_bar = self.menuBar()
         menu_bar.setNativeMenuBar(False)
-        file_menu = menu_bar.addMenu("File")
+        file_menu = menu_bar.addMenu("Menu")
 
         pause_action = QAction("Pause", self)
         pause_action.triggered.connect(self.pause_animation)
@@ -57,7 +57,7 @@ class SpritePreview(QMainWindow):
         self.fps_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.fps_label)
 
-        self.button = QPushButton("Play")
+        self.button = QPushButton("Start")
         self.button.clicked.connect(self.play_animation)
         self.layout.addWidget(self.button)
 
@@ -80,11 +80,18 @@ class SpritePreview(QMainWindow):
     def pause_animation(self):
         if self.timer.isActive():
             self.timer.stop()
+            self.button.setText("Start")
         else:
             self.update_fps()
+            self.button.setText("Stop")
 
     def play_animation(self):
+        if self.timer.isActive():
+            self.timer.stop()
+            self.button.setText("Start")
+        else:
         self.update_fps()
+        self.button.setText("Stop")
 
     def update_fps(self):
         fps = self.slider.value()
